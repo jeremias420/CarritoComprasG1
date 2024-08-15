@@ -15,6 +15,8 @@ namespace CarritoCompraG1
                        "~/Scripts/fontawesome/all.min.js",
                        "~/Scripts/DataTables/jquery.dataTables.js",
                        "~/Scripts/DataTables/dataTables.responsive.js",
+                       "~/Scripts/loadingoverlay/loadingoverlay.min.js",
+                       "~/Scripts/sweetalert.min.js",
                        "~/Scripts/scripts.js"));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
@@ -29,7 +31,8 @@ namespace CarritoCompraG1
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/site.css",
                 "~/Content/DataTables/css/jquery.dataTables.css",
-                "~/Content/DataTables/css/responsive.dataTables.css"
+                "~/Content/DataTables/css/responsive.dataTables.css",
+                "~/Content/sweetalert.css"
                 ));
         }
     }
