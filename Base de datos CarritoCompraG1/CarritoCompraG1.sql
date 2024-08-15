@@ -15,6 +15,7 @@ cate_fechaRegistro datetime default getdate(),
 
 go
 
+
 create table marca(
 marc_id int primary key identity,
 marc_descripcion varchar (100),

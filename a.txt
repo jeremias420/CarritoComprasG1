@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,12 +37,12 @@ namespace CapaNegocio
             return Sb.ToString();
         }
 
-        public static bool EnviarCorreo(string correo, string asunto, string mensaje)
-        {
+        public static bool EnviarCorreo(string correo,string asunto,string mensaje){
+
             bool resultado = false;
 
-            try
-            {
+            try{
+
                 MailMessage mail = new MailMessage();
                 mail.To.Add(correo);
                 mail.From = new MailAddress("carritocomprag1@gmail.com");
@@ -52,25 +52,46 @@ namespace CapaNegocio
 
                 var smtp = new SmtpClient()
                 {
-                    Credentials = new NetworkCredential("carritocomprag1@gmail.com", "oihcbdrnttwduxpy"),
+
+                    Credentials = new NetworkCredential("carritocomprag1@gmail.com", "oihc bdrn ttwd uxpy"),
                     Host = "smtp.gmail.com",
                     Port = 587,
-                    EnableSsl = true
+                    EnableSsl = false
+
                 };
 
                 smtp.Send(mail);
                 resultado = true;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+            catch(Exception ex){
+
                 resultado = false;
+
             }
 
             return resultado;
         }
 
-
     }
 }
 
+
+--Editar cate
+create proc sp_EliminarCategoria(
+@IdCategoria int,
+@Mensaje varchar(500) output,
+@Resultado int output
+)
+as
+begin
+	SET @Resultado = 0
+	IF NOT EXISTS (SELECT * FROM producto p
+	inner join categoria c on c.cate_id = p.cate_id
+	where p.cate_id = @IdCategoria)
+	begin
+    	delete top (1) from categoria where cate_id = @IdCategoria
+    	SET @Resultado = 1
+	end
+	else
+    	set @Mensaje = 'La categoria se encuentra relacionada a un producto'
+end
