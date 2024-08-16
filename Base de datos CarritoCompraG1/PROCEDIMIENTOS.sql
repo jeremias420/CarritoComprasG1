@@ -100,7 +100,7 @@ begin
 end
 
 --SP ELIMINAR CATEGORIA
-create proc sp_EliminarCategoria(
+alter procedure sp_EliminarCategoria(
 @IdCategoria int,
 @Mensaje varchar(500) output,
 @Resultado int output
@@ -108,9 +108,9 @@ create proc sp_EliminarCategoria(
 as
 begin
 	SET @Resultado = 0
-	IF NOT EXISTS (SELECT * FROM producto p
-	inner join categoria c on c.cate_id = p.cate_id
-	where p.cate_id = @IdCategoria)
+	IF NOT EXISTS (SELECT * FROM producto 
+					inner join categoria on cate_id = prod_cate_id
+					where prod_cate_id = @IdCategoria)
 	begin
     	delete top (1) from categoria where cate_id = @IdCategoria
     	SET @Resultado = 1
@@ -118,3 +118,4 @@ begin
 	else
     	set @Mensaje = 'La categoria se encuentra relacionada a un producto'
 end
+SELECT * FROM producto

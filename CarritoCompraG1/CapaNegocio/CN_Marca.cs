@@ -9,22 +9,23 @@ using CapaEntidad;
 
 namespace CapaNegocio
 {
-    public class CN_Categoria{
+    public class CN_Marca
+    {
 
-        private CD_Categoria objCapaDato = new CD_Categoria();
+        private CD_Marca objCapaDato = new CD_Marca();
 
-        public List<Categoria> Listar()
+        public List<Marca> Listar()
         {
             return objCapaDato.Listar();
         }
 
-        public int Registrar(Categoria obj, out string Mensaje)
+        public int Registrar(Marca obj, out string Mensaje)
         {
             Mensaje = string.Empty;
 
-            if (string.IsNullOrEmpty(obj.cate_descripcion) || string.IsNullOrWhiteSpace(obj.cate_descripcion))
+            if (string.IsNullOrEmpty(obj.marc_descripcion) || string.IsNullOrWhiteSpace(obj.marc_descripcion))
             {
-                Mensaje = "La descripcion no puede estar vacia";
+                Mensaje = "La marca no puede estar vacia";
             }
 
             if (string.IsNullOrEmpty(Mensaje))
@@ -37,13 +38,13 @@ namespace CapaNegocio
             }
         }
 
-        public bool Editar(Categoria obj, out string Mensaje)
+        public bool Editar(Marca obj, out string Mensaje)
         {
             Mensaje = string.Empty;
 
-            if (string.IsNullOrEmpty(obj.cate_descripcion) || string.IsNullOrWhiteSpace(obj.cate_descripcion))
+            if (string.IsNullOrEmpty(obj.marc_descripcion) || string.IsNullOrWhiteSpace(obj.marc_descripcion))
             {
-                Mensaje = "La descripcion no puede estar vacia";
+                Mensaje = "La marca no puede estar vacia";
             }
 
             if (string.IsNullOrEmpty(Mensaje))
@@ -59,6 +60,5 @@ namespace CapaNegocio
         {
             return objCapaDato.Eliminar(id, out Mensaje);
         }
-
     }
 }

@@ -15,6 +15,8 @@ cate_fechaRegistro datetime default getdate(),
 
 go
 
+select * from categoria
+
 
 create table marca(
 marc_id int primary key identity,
