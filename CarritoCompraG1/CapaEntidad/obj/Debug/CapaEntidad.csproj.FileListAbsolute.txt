@@ -16,3 +16,9 @@ C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\obj
 C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
 C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\obj\Debug\CapaEntidad.dll
 C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\obj\Debug\CapaEntidad.pdb
+C:\Users\kochf\OneDrive\Documentos\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\bin\Debug\CapaEntidad.dll
+C:\Users\kochf\OneDrive\Documentos\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\bin\Debug\CapaEntidad.pdb
+C:\Users\kochf\OneDrive\Documentos\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\obj\Debug\CapaEntidad.csprojAssemblyReference.cache
+C:\Users\kochf\OneDrive\Documentos\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
+C:\Users\kochf\OneDrive\Documentos\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\obj\Debug\CapaEntidad.dll
+C:\Users\kochf\OneDrive\Documentos\GitHub\CarritoComprasG1\CarritoCompraG1\CapaEntidad\obj\Debug\CapaEntidad.pdb
