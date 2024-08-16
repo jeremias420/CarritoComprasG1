@@ -51,6 +51,8 @@ begin
 	else
     	set @Mensaje = 'El correo del usuario ya existe'
 end
+------------------------------------------------------------------
+
 
 --SP REGISTRAR CATEGORIA
 create proc sp_RegistrarCategoria(
@@ -119,3 +121,72 @@ begin
     	set @Mensaje = 'La categoria se encuentra relacionada a un producto'
 end
 SELECT * FROM producto
+---------------------------------------------------------------
+
+
+--REGISTRAR MARCA
+alter procedure sp_RegistrarMarca(
+@Descripcion varchar(100),
+@Activo bit,
+@Mensaje varchar(100) output,
+@Resultado bit output
+
+)
+as
+begin
+	SET @Resultado = 0
+		if not exists (select * from marca where marc_descripcion = @Descripcion)
+begin
+insert into marca(marc_descripcion, marc_activo)
+values
+(@Descripcion,@Activo)
+
+	set @Resultado = scope_identity()
+end
+	else
+	set @Mensaje = 'La marca ya existe'
+end
+
+--EDITAR MARCA
+alter procedure sp_EditarMarca(
+@IdMarca int,
+@Descripcion varchar(100),
+@Activo bit,
+@Mensaje varchar(100) output,
+@Resultado bit output
+)
+as
+begin
+	SET @Resultado = 0
+	IF NOT EXISTS (SELECT * FROM marca WHERE marc_descripcion = @Descripcion and marc_id != @IdMarca)
+	begin
+    	update top (1) marca set
+        	marc_descripcion = @Descripcion,
+        	marc_activo = @Activo
+    	where marc_id = @IdMarca
+   	 
+    	SET @Resultado = 1
+	end
+	else
+    	set @Mensaje = 'La marca ya existe'
+end
+
+--SP ELIMINAR MARCA
+create procedure sp_EliminarMarca(
+@IdMarca int,
+@Mensaje varchar(500) output,
+@Resultado bit output
+)
+as
+begin
+	SET @Resultado = 0
+	IF NOT EXISTS (SELECT * FROM producto 
+					inner join marca on marc_id = prod_marc_id
+					where prod_marc_id = @IdMarca)
+	begin
+    	delete top (1) from marca where marc_id = @IdMarca
+    	SET @Resultado = 1
+	end
+	else
+    	set @Mensaje = 'La marca se encuentra relacionada a un producto'
+end
