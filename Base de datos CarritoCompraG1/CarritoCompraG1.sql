@@ -27,6 +27,8 @@ marc_fechaRegistro datetime default getdate(),
 
 go
 
+select * from marca
+
 create table producto(
 prod_id int primary key identity,
 prod_nombre varchar (255),

@@ -25,3 +25,12 @@ C:\Users\Lab-01\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\
 C:\Users\Lab-01\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
 C:\Users\Lab-01\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\Debug\CapaDatos.dll
 C:\Users\Lab-01\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\Debug\CapaDatos.pdb
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\bin\Debug\CapaDatos.dll
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\bin\Debug\CapaDatos.pdb
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\bin\Debug\CapaEntidad.dll
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\bin\Debug\CapaEntidad.pdb
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\Debug\CapaDatos.csprojAssemblyReference.cache
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\Debug\CapaDatos.dll
+C:\Users\tomyb\Documents\GitHub\CarritoComprasG1\CarritoCompraG1\CapaDatos\obj\Debug\CapaDatos.pdb

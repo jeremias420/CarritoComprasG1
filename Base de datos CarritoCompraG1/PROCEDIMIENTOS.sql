@@ -190,3 +190,94 @@ begin
 	else
     	set @Mensaje = 'La marca se encuentra relacionada a un producto'
 end
+
+-------------------------------------------------------------------------
+
+--REGISTRAR PRODUCTO
+create procedure sp_RegistrarProducto(
+@Nombre varchar(100),
+@Descripcion varchar(100),
+@IdMarca varchar(100),
+@IdCategoria varchar(100),
+@Precio decimal (10,2),
+@Stock int,
+@Activo bit,
+@Mensaje varchar(100) output,
+@Resultado bit output
+
+)
+as
+begin
+	SET @Resultado = 0
+		if not exists (select * from producto where prod_descripcion = @Descripcion)
+begin
+insert into producto(prod_nombre, prod_descripcion, prod_marc_id, prod_cate_id, prod_precio, prod_stock, prod_activo)
+values
+(@Nombre,@Descripcion,@IdMarca,@IdCategoria,@Precio,@Stock,@Activo)
+
+	set @Resultado = scope_identity()
+end
+	else
+	set @Mensaje = 'El producto ya existe'
+end
+
+
+--EDITAR PRODUCTO
+create procedure sp_EditarProducto(
+@IdProducto int,
+@Nombre varchar(100),
+@Descripcion varchar(100),
+@IdMarca varchar(100),
+@IdCategoria varchar(100),
+@Precio decimal (10,2),
+@Stock int,
+@Activo bit,
+@Mensaje varchar(100) output,
+@Resultado bit output
+
+)
+as
+begin
+	SET @Resultado = 0
+	if not exists (select * from producto where prod_nombre = @Nombre and prod_id = @IdProducto)
+	begin
+
+    	update producto set
+        	prod_nombre = @Nombre,
+			prod_descripcion = @Descripcion,
+			prod_marc_id = @IdMarca,
+			prod_cate_id = @IdCategoria,
+			prod_precio = @Precio,
+			prod_stock = @Stock,
+			prod_activo = @Activo
+    	where prod_id = @IdProducto
+   	 
+    	SET @Resultado = 1
+	end
+	else
+    	set @Mensaje = 'El producto ya existe'
+end
+
+--ELIMINAR PRODUCTO
+create procedure sp_EliminarProducto(
+@IdProducto int,
+@Mensaje varchar(500) output,
+@Resultado bit output
+)
+as
+begin
+	SET @Resultado = 0
+	IF NOT EXISTS (SELECT * FROM detalle_venta 
+					inner join producto on prod_id = deta_prod_id
+					where prod_id = @IdProducto)
+	begin
+    	delete top (1) from producto where prod_id = @IdProducto
+    	SET @Resultado = 1
+	end
+	else
+    	set @Mensaje = 'El producto se encuentra relacionado a una venta'
+end
+
+select prod_id, prod_nombre, prod_descripcion, prod_marc_id, marc_descripcion, prod_cate_id, cate_descripcion, prod_precio, prod_stock, prod_rutaImagen, prod_nombreImagen, prod_activo from producto
+inner join marca on marc_id = prod_marc_id
+inner join categoria on cate_id = prod_cate_id
