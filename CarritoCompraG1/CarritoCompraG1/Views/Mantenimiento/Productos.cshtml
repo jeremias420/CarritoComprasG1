@@ -146,19 +146,41 @@
             responsive: true,
             ordering: false,
             "ajax": {
-                url: '@Url.Action("ListarMarca", "Mantenimiento")',
+                url: '@Url.Action("ListarProducto", "Mantenimiento")',
                 type: "GET",
                 dataType: "json"
             },
             "columns": [
-                {"data": "marc_descripcion"},
+                { "data": "marc_nombre" },
+                { "data": "marc_descripcion" },
                 {
-                    "data": "marc_activo","render": function (valor) {
-                        return valor
-                            ? '<span class="badge bg-success">Si</span>'
-                            : '<span class="badge bg-danger">No</span>';
+                    "data": "oMarca", "render": function (data) {
+
+                        if (valor) {
+                        return data.marc_descripcion
                     }
-                },
+                 },
+
+                 {
+                    "data": "oCategoria", "render": function (data) {
+
+                        if (valor) {
+                            return data.cate_descripcion
+                        }
+                    },
+                { "data": "prod_precio" },
+                { "data": "prod_stock" },
+
+                {
+                    "data": "marc_activo", "render": function (data) {
+
+                        if (valor) {
+                            return '<span class="badge bg-success">Si</span>'
+                        } else {
+                            return '<span class="badge bg-danger">No</span>';
+                        }
+                    }
+                },    
                 {
                     "defaultContent": '<button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
                                       '<button type="button" class="btn btn-danger btn-sm ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
@@ -206,6 +228,50 @@
                 console.log(error)
             }
         });
+
+
+        jQuery.validator.addMehod("preciodecimal", function (value, element) {
+            return this.optional(element) || /^\d{0,4}(\.\d{0,2})?/i.test(value);
+        }, "El formato correcto del precio es ##.##");
+
+        $("#contenedor").validate(
+
+            rules: {
+                prod_nombre: {
+                    required: true
+                },
+                prod_descripcion: {
+                    required: true
+                },
+                prod_precio: {
+                    required: true,
+                    preciodecimal: true
+                },
+                prod_stock: {
+                    required: true,
+                    number:true
+                },
+
+            },
+            messages: {
+
+                prod_nombre: "- El campo nombre es obligatorio",
+                prod_descripcion: "- El campo descripcion es obligatorio",
+                prod_precio: { required: "- El campo precio es obligatorio", preciodecimal: "- El formato correcto del precio es ##.##"}
+                prod_stock: { required: "- El campo stock es obligatorio", preciodecimal: "- Debe ingresar solo numeros en el stock" }
+            },
+            errorElement: "div",
+            errorLabelContainer: ".alert-danger"
+            
+
+        })
+
+
+
+
+
+
+
 
 
         function abrirModal(json) {
@@ -285,6 +351,13 @@
         })
 
         function Guardar() {
+
+            if (!$("#contenedor").valid()) {
+                return;
+
+            }
+
+
 
             var imagenSeleccionada = $("#fileProducto")[0].files[0];
 
