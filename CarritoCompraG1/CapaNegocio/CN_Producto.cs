@@ -12,7 +12,7 @@ namespace CapaNegocio
     public class CN_Producto{
 
 
-            private CN_Producto objCapaDato = new CN_Producto();
+            private CD_Productos objCapaDato = new CD_Productos();
 
             public List<Producto> Listar()
             {
@@ -69,7 +69,7 @@ namespace CapaNegocio
             }
             else if (string.IsNullOrEmpty(obj.prod_descripcion) || string.IsNullOrWhiteSpace(obj.prod_descripcion))
             {
-                Mensaje = "La descripcion del no puede ser vacio";
+                Mensaje = "La descripcion del producto no puede ser vacio";
             }
             else if (obj.oMarca.marc_id == 0)
             {

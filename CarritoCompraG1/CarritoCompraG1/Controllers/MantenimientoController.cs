@@ -31,6 +31,7 @@ namespace CarritoCompraG1.Controllers
         }
 
         //CATEGORIAS
+        #region Categoria
         [HttpGet]
         public JsonResult ListarCategoria()
         {
@@ -59,7 +60,7 @@ namespace CarritoCompraG1.Controllers
 
             return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
-            
+
         [HttpPost]
         public JsonResult EliminarCategoria(int id)
         {
@@ -71,7 +72,10 @@ namespace CarritoCompraG1.Controllers
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
+
         //MARCA
+        #region Marca
         [HttpGet]
         public JsonResult ListarMarca()
         {
@@ -111,8 +115,10 @@ namespace CarritoCompraG1.Controllers
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        //PRODUCTO
+        #endregion
 
+        //PRODUCTO
+        #region Producto
         [HttpGet]
         public JsonResult ListarProducto()
         {
@@ -126,7 +132,6 @@ namespace CarritoCompraG1.Controllers
         [HttpPost]
         public JsonResult GuardarProducto(string objeto, HttpPostedFileBase archivoImagen)
         {
-            object resultado;
             string mensaje = string.Empty;
             bool operacion_exitosa = true;
             bool guardar_imagen_exito = true;
@@ -137,22 +142,22 @@ namespace CarritoCompraG1.Controllers
             oProducto = JsonConvert.DeserializeObject<Producto>(objeto);
             decimal precio;
 
-            if(decimal.TryParse(oProducto.prod_PrecioTexto,System.Globalization.NumberStyles.AllowDecimalPoint,new System.Globalization.CultureInfo("es-AR"),out precio)){
+            if (decimal.TryParse(oProducto.prod_PrecioTexto, System.Globalization.NumberStyles.AllowDecimalPoint, new System.Globalization.CultureInfo("es-AR"), out precio)) {
                 oProducto.prod_precio = precio;
             }
-            else{
+            else {
                 return Json(new { operacion_exitosa = false, mensaje = "El formato del precio debe ser ##.##" }, JsonRequestBehavior.AllowGet);
-                 
+
             }
 
             if (oProducto.prod_id == 0)
             {
 
                 int idProductoGenerado = new CN_Producto().Registrar(oProducto, out mensaje);
-                if (idProductoGenerado != 0){
+                if (idProductoGenerado != 0) {
                     oProducto.prod_id = idProductoGenerado;
                 }
-                else{
+                else {
                     operacion_exitosa = false;
                 }
             }
@@ -161,51 +166,74 @@ namespace CarritoCompraG1.Controllers
                 operacion_exitosa = new CN_Producto().Editar(oProducto, out mensaje);
             }
 
-            if (operacion_exitosa){
+            if (operacion_exitosa) {
 
-                if(archivoImagen != null){
+                if (archivoImagen != null) {
 
                     string ruta_guardar = ConfigurationManager.AppSettings["ServidorFotos"];
                     string extension = Path.GetExtension(archivoImagen.FileName);
                     string nombre_imagen = string.Concat(oProducto.ToString(), extension);
 
 
-                    try{
+                    try {
 
                         archivoImagen.SaveAs(Path.Combine(ruta_guardar, nombre_imagen));
 
                     }
-                    catch(Exception ex){
+                    catch (Exception ex) {
 
                         string msg = ex.Message;
                         guardar_imagen_exito = false;
 
                     }
 
-                    if(guardar_imagen_exito){
+                    if (guardar_imagen_exito) {
 
                         oProducto.prod_rutaImagen = ruta_guardar;
                         oProducto.prod_nombreImagen = nombre_imagen;
                         bool rspta = new CN_Producto().GuardarDatosImagen(oProducto, out mensaje);
 
                     }
-                    else{
+                    else {
 
                         mensaje = "Se guardo el producto pero hubo un problema con la imagen";
 
                     }
-
-
-              
                 }
-
             }
-
-
-
-                return Json(new { operacion_exitosa = operacion_exitosa,idGenerado = oProducto.prod_id,  mensaje = mensaje }, JsonRequestBehavior.AllowGet);
-
+            return Json(new { operacion_exitosa = operacion_exitosa, idGenerado = oProducto.prod_id, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult imagenProducto(int id)
+        {
+            bool conversion;
+            Producto oProducto = new CN_Producto().Listar().Where(p => p.prod_id == id).FirstOrDefault();
+
+            string textoBase64 = CN_Recursos.ConvertirBase64(Path.Combine(oProducto.prod_rutaImagen, oProducto.prod_nombreImagen), out conversion);
+
+            return Json(new
+            {
+                conversion = conversion,
+                textoBase64 = textoBase64,
+                extension = Path.GetExtension(oProducto.prod_nombreImagen)
+            },
+                JsonRequestBehavior.AllowGet
+            );
+        }
+
+        [HttpPost]
+        public JsonResult EliminarProducto(int id)
+        {
+            bool respuesta = false;
+            string mensaje = string.Empty;
+
+            respuesta = new CN_Producto().Eliminar(id, out mensaje);
+
+            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
 
 
     }
