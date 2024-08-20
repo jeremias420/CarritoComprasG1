@@ -275,6 +275,7 @@
 
 
         function abrirModal(json) {
+
             $("#txtid").val(0);
             $("#img_producto").removeAttr("src");
             $("#fileProducto").val("");
@@ -300,8 +301,41 @@
                 $("#cboactivo").val(json.marc_activo == true ? 1 : 0);
             }
 
+
+                  jQuery.ajax({
+	                url: '@Url.Action("ImagenProducto", "Mantenedor")',
+	                type: "POST",
+	                data: JSON.stringify({ id : json.IdProducto}),
+	                dataType: "json",
+	                contentType: "application/json; charset=utf-8",
+	                success: function (data) {
+
+		                $("#img_producto").LoadingOverlay("hide");	
+
+		                if(data.conversion) {
+			                $("#img_producto").attr(["src":"data:image/" + data.extension + ";base64," + data.textobase64 });
+			 
+		                }
+	                },
+	                    error: function (error) {
+		                    $("#img_producto").LoadingOverlay("hide");
+	
+		                    $("mensajeError").show();
+		                    $("mensajeError").text("Error al mostrar imagen");	 
+	                    },
+	                    beforeSend: function () {
+		                    $("#img_producto").LoadingOverlay("show");
+	                    },
+                });
+
+
+
+
             $("#FormModal").modal("show");
+
         }
+            
+        
 
         $("#tabla tbody").on("click", '.btn-editar', function () {
 
@@ -313,12 +347,12 @@
         });
 
         $("#tabla tbody").on("click", '.btn-eliminar', function () {
-            var marcaSeleccionada = $(this).closest("tr");
-            var data = tabladata.row(marcaSeleccionada).data();
+            var productoseleccionado = $(this).closest("tr");
+            var data = tabladata.row(productoseleccionado).data();
 
             swal({
                 title: "¿Está Seguro?",
-                text: "¿Desea eliminar la marca?",
+                text: "¿Desea eliminar el producto?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-primary",
@@ -328,15 +362,15 @@
             },
             function () {
                 jQuery.ajax({
-                    url: '@Url.Action("EliminarMarca", "Mantenimiento")',
-                    type: "POST",
-                    data: JSON.stringify({ id: data.marc_id }),
+                    url: '@Url.Action("EliminarMarca", "Mantenedor")',
+	                type: "POST",
+	                data: JSON.stringify({ id: data.IdProducto }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
 
                         if (data.resultado) {
-                            tabladata.row(marcaSeleccionada).remove().draw();
+                            tabladata.row(productoseleccionado).remove().draw();
                         } else {
                             swal("No se pudo Eliminar", data.mensaje, "error");
                         }
