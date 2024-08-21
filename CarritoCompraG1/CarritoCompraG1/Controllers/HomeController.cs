@@ -63,6 +63,23 @@ namespace CarritoCompraG1.Controllers
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ListarReporte(string fechainicio, string fechafin, string idtransaccion)
+        {
+            List<Reporte> oLista = new List<Reporte>();
+
+            oLista = new CN_Reporte().Ventas(fechainicio, fechafin, idtransaccion);
+
+            return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult vistaDashBoard()
+        {
+            DashBoard objeto = new CN_Reporte().verDashBoard();
+
+            return Json(new { resultado = objeto }, JsonRequestBehavior.AllowGet);
+        }
 
 
     }
