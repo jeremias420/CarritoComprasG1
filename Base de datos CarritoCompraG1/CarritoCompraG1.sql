@@ -27,6 +27,8 @@ marc_fechaRegistro datetime default getdate(),
 
 go
 
+select * from usuario
+
 select * from marca
 
 create table producto(

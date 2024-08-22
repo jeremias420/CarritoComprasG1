@@ -145,6 +145,54 @@ namespace CapaDatos
             return resultado;
         }
 
+        public bool CambiarClave(int idusuario, string nuevaclave, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexiones.cn))
+                {
+                    SqlCommand cmd = new SqlCommand("update usuario set usua_clave = @nuevaclave , reestablecer = 0 where idusuario = @id", oConexion);
+                    cmd.Parameters.AddWithValue("@id", idusuario);
+                    cmd.Parameters.AddWithValue("@nuevaClave", nuevaclave);
+                    cmd.CommandType = CommandType.Text;
+                    oConexion.Open();
+                    resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+        public bool ReestablecerClave(int idusuario, string clave, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexiones.cn))
+                {
+                    SqlCommand cmd = new SqlCommand("update usuario set usua_clave = @clave , reestablecer = 1 where idusuario = @id", oConexion);
+                    cmd.Parameters.AddWithValue("@id", idusuario);
+                    cmd.Parameters.AddWithValue("@clave", clave);
+                    cmd.CommandType = CommandType.Text;
+                    oConexion.Open();
+                    resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
 
 
     }
