@@ -32,22 +32,22 @@ namespace CarritoCompraG1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Registrar(Usuario objeto)
+        public ActionResult Registrar(Cliente objeto)
         {
             int resultado;
             string mensaje = string.Empty;
 
-            ViewData["Nombres"] = string.IsNullOrEmpty(objeto.usua_nombre) ? "" : objeto.usua_nombre;
-            ViewData["Apellidos"] = string.IsNullOrEmpty(objeto.usua_apellido) ? "" : objeto.usua_apellido;
-            ViewData["Correo"] = string.IsNullOrEmpty(objeto.usua_correo) ? "" : objeto.usua_correo;
+            ViewData["Nombres"] = string.IsNullOrEmpty(objeto.clie_nombre) ? "" : objeto.clie_nombre;
+            ViewData["Apellidos"] = string.IsNullOrEmpty(objeto.clie_apellido) ? "" : objeto.clie_apellido;
+            ViewData["Correo"] = string.IsNullOrEmpty(objeto.clie_correo) ? "" : objeto.clie_correo;
 
-            if (objeto.usua_clave != objeto.usua_confirmarclave)
+            if (objeto.clie_clave != objeto.clie_ConfirmarClave)
             {
                 ViewBag.Error = "Las contraseñas no coinciden";
                 return View();
             }
 
-            resultado = new CN_Usuarios().Registrar(objeto, out mensaje);
+            resultado = new CN_Cliente().Registrar(objeto, out mensaje);
 
             if (resultado > 0)
             {
@@ -64,41 +64,42 @@ namespace CarritoCompraG1.Controllers
         [HttpPost]
         public ActionResult Index(string correo, string clave)
         {
-            Usuario oUsuario = null;
-            oUsuario = new CN_Usuarios().Listar().Where(item => item.usua_correo == correo && item.usua_clave == CN_Recursos.ConvertirSha256(clave)).FirstOrDefault();
+            Cliente oCliente = null;
+            oCliente = new CN_Cliente().Listar().Where(item => item.clie_correo == correo && item.clie_clave == CN_Recursos.ConvertirSha256(clave)).FirstOrDefault();
 
-            if (oUsuario == null)
+            if (oCliente == null)
             {
                 ViewBag.Error = "Correo o contraseña no son correctas";
                 return View();
             }
+
+            if (oCliente.clie_restablecer)
+            {
+                TempData["IdCliente"] = oCliente.clie_id;
+                return RedirectToAction("CambiarClave", "Acceso");
+            }
             else
             {
-                if (oUsuario.usua_restablecer)
-                {
-                    TempData["IdCliente"] = oUsuario.usua_id;
-                    return RedirectToAction("CambiarClave", "Acceso");
-                }
-            }
-                FormsAuthentication.SetAuthCookie(oUsuario.usua_correo, false);
-                Session["Cliente"] = oUsuario;
+                FormsAuthentication.SetAuthCookie(oCliente.clie_correo, false);
+                Session["Cliente"] = oCliente;
                 ViewBag.Error = null;
                 return RedirectToAction("Index", "Tienda");
+            }
         }
 
         [HttpPost]
         public ActionResult Reestablecer(string correo)
         {
-            Usuario oUsuario = new CN_Usuarios().Listar().FirstOrDefault(item => item.usua_correo == correo);
+            Cliente cliente = new CN_Cliente().Listar().FirstOrDefault(item => item.clie_correo == correo);
 
-            if (oUsuario == null)
+            if (cliente == null)
             {
                 ViewBag.Error = "No se encontró un cliente relacionado a ese correo";
                 return View();
             }
 
             string mensaje = string.Empty;
-            bool respuesta = new CN_Cliente().ReestablecerClave(oUsuario.usua_id, correo, out mensaje);
+            bool respuesta = new CN_Cliente().ReestablecerClave(cliente.clie_id, correo, out mensaje);
 
             if (respuesta)
             {
@@ -113,26 +114,26 @@ namespace CarritoCompraG1.Controllers
         }
 
         [HttpPost]
-        public ActionResult CambiarClave(string idUsuario, string claveactual, string nuevaclave, string confirmaclave)
+        public ActionResult CambiarClave(string idCliente, string claveactual, string nuevaclave, string confirmaclave)
         {
-            Usuario oUsuario = new CN_Usuarios().Listar().Where(u => u.usua_id == int.Parse(idUsuario)).FirstOrDefault();
+            Cliente oCliente = new CN_Cliente().Listar().Where(u => u.clie_id == int.Parse(idCliente)).FirstOrDefault();
 
-            if (oUsuario == null)
+            if (oCliente == null)
             {
                 ViewBag.Error = "Cliente no encontrado";
                 return View();
             }
 
-            if (oUsuario.usua_clave != CN_Recursos.ConvertirSha256(claveactual))
+            if (oCliente.clie_clave != CN_Recursos.ConvertirSha256(claveactual))
             {
-                TempData["IdUsuario"] = idUsuario;
-                ViewData["vclave"] = "" ;
+                TempData["IdCliente"] = idCliente;
+                ViewData["vclave"] = "";
                 ViewBag.Error = "La contraseña actual no es correcta";
                 return View();
             }
             else if (nuevaclave != confirmaclave)
             {
-                TempData["IdUsuario"] = idUsuario;
+                TempData["IdCliente"] = idCliente;
                 ViewData["vclave"] = claveactual;
                 ViewBag.Error = "Las contraseñas no coinciden";
                 return View();
@@ -142,7 +143,7 @@ namespace CarritoCompraG1.Controllers
             nuevaclave = CN_Recursos.ConvertirSha256(nuevaclave);
 
             string mensaje = string.Empty;
-            bool respuesta = new CN_Usuarios().CambiarClave(int.Parse(idUsuario), nuevaclave, out mensaje);
+            bool respuesta = new CN_Cliente().CambiarClave(int.Parse(idCliente), nuevaclave, out mensaje);
 
             if (respuesta)
             {
@@ -150,7 +151,7 @@ namespace CarritoCompraG1.Controllers
             }
             else
             {
-                TempData["IdUsuario"] = idUsuario;
+                TempData["IdCliente"] = idCliente;
                 ViewBag.Error = mensaje;
                 return View();
             }

@@ -181,6 +181,7 @@
     <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MantenimientoController.cs" />
+    <Compile Include="Controllers\TiendaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -595,10 +596,12 @@
     <Content Include="Views\Mantenimiento\Productos.cshtml" />
     <Content Include="Views\Acceso\Index.cshtml" />
     <Content Include="Views\Acceso\CambiarClave.cshtml" />
+    <Content Include="Views\Acceso\Reestablecer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Tienda\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

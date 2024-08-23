@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace CarritoCompraG1.Controllers
 {
+    [Authorize]
     public class MantenimientoController : Controller
     {
         private string configurationManager;

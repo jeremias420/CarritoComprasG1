@@ -14,6 +14,7 @@ namespace CapaEntidad
         public string usua_correo { get; set; }
         public string usua_clave { get; set; }
         public bool usua_restablecer { get; set; }
+        public string usua_confirmarclave { get; set; }
         public bool usua_activo { get; set; }
     }
 }

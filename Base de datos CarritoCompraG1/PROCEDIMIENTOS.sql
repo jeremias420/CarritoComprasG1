@@ -281,3 +281,30 @@ end
 select prod_id, prod_nombre, prod_descripcion, prod_marc_id, marc_descripcion, prod_cate_id, cate_descripcion, prod_precio, prod_stock, prod_rutaImagen, prod_nombreImagen, prod_activo from producto
 inner join marca on marc_id = prod_marc_id
 inner join categoria on cate_id = prod_cate_id
+
+
+
+--REGISTRAR CLIENTE
+create procedure sp_RegistrarCliente(
+@Nombre varchar(100),
+@Descripcion varchar(100),
+@Correo varchar(100),
+@Clave varchar(100),
+@Mensaje varchar(100) output,
+@Resultado bit output
+
+)
+as
+begin
+	SET @Resultado = 0
+		if not exists (select * from CLIENTE where clie_correo = @Correo)
+begin
+insert into CLIENTE(clie_nombre, clie_apellidos, clie_correo, clie_clave, clie_reestablecer)
+values
+(@Nombre,@Apellidos,@Correo,@Clave,0)
+
+	set @Resultado = scope_identity()
+end
+	else
+	set @Mensaje = 'El correo del usuario ya existe'
+end
