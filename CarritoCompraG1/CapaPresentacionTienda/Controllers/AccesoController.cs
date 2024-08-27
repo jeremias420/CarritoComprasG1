@@ -159,6 +159,7 @@ namespace CarritoCompraG1.Controllers
 
         public ActionResult CerrarSesion()
         {
+            Session["Cliente"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Acceso");
         }
