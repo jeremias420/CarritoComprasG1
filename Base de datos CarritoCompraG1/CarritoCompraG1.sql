@@ -135,4 +135,11 @@ ciud_depa_id int not null,
 
 go
 
+declare @idcategoria int = 0
+
+select distinct marc_id, marc_descripcion from producto
+inner join categoria on cate_id = prod_cate_id
+inner join marca on marc_id = prod_marc_id and marc_activo = 1
+where cate_id = iif (@idcategoria = 0, cate_id, @idcategoria)
+
 

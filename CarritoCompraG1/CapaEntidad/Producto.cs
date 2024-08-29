@@ -19,7 +19,7 @@ namespace CapaEntidad
         public string prod_rutaImagen { get; set; }
         public string prod_nombreImagen { get; set; }
         public bool prod_activo { get; set; }
-        public bool prod_Base64 { get; set; }
-        public bool prod_Extension { get; set; }
+        public string prod_Base64 { get; set; }
+        public string prod_Extension { get; set; }
     }
 }

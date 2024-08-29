@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# SQL Server Management Studio Solution File, Format Version 19.00
+# SQL Server Management Studio Solution File, Format Version 20.00
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Global
@@ -8,12 +8,12 @@ Global
 		Default|Default = Default|Default
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68EEE851-16DC-4B63-8CCE-215F110BC040}.Default|Default.ActiveCfg = Default
+		{6D901658-E25B-40EE-A0CB-78BB78A61A94}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D228D7DE-305A-4F98-BE67-CF48DAC6B655}
+		SolutionGuid = {F296F624-BA69-4F88-8361-7101E0EB1632}
 	EndGlobalSection
 EndGlobal
